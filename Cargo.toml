@@ -1,0 +1,79 @@
+[package]
+name = "distributed-config"
+version = "0.1.0"
+edition = "2024"
+description = "A robust configuration management library for Rust applications running in distributed environments"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/ciresnave/distributed-config"
+authors = ["Eric Evans <ciresnave@gmail.com>"]
+keywords = ["config", "configuration", "distributed", "async", "management"]
+categories = ["config", "asynchronous", "data-structures"]
+readme = "README.md"
+
+[dependencies]
+# Core async runtime
+tokio = { version = "1.0", features = ["full"] }
+tokio-stream = { version = "0.1", features = ["sync"] }
+futures = "0.3"
+async-trait = "0.1"
+
+# Serialization and data handling
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9"
+toml = "0.8"
+
+# Error handling
+thiserror = "1.0"
+anyhow = "1.0"
+
+# Logging and tracing
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Concurrent data structures
+dashmap = "5.5"
+parking_lot = "0.12"
+
+# Validation
+jsonschema = "0.17"
+
+# HTTP client for remote sources
+reqwest = { version = "0.11", features = ["json"] }
+
+# Time handling
+chrono = { version = "0.4", features = ["serde"] }
+
+# File watching
+notify = "6.0"
+
+# Optional backends
+redis = { version = "0.24", optional = true }
+etcd-client = { version = "0.12", optional = true }
+
+[dev-dependencies]
+tokio-test = "0.4"
+tempfile = "3.8"
+wiremock = "0.5"
+
+[features]
+default = []
+redis-backend = ["redis"]
+etcd-backend = ["etcd-client"]
+all-backends = ["redis-backend", "etcd-backend"]
+
+[[example]]
+name = "basic_usage"
+path = "examples/basic_usage.rs"
+
+[[example]]
+name = "distributed_sync"
+path = "examples/distributed_sync.rs"
+
+[[example]]
+name = "feature_flags"
+path = "examples/feature_flags.rs"
+
+[[example]]
+name = "simple_test"
+path = "examples/simple_test.rs"
